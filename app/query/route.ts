@@ -1,26 +1,26 @@
-// import postgres from 'postgres';
+import { NextResponse } from 'next/server';
+import postgres from 'postgres';
 
-// const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+// Initialize the database connection
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
-// async function listInvoices() {
-// 	const data = await sql`
-//     SELECT invoices.amount, customers.name
-//     FROM invoices
-//     JOIN customers ON invoices.customer_id = customers.id
-//     WHERE invoices.amount = 666;
-//   `;
+// Function to fetch invoices
+async function listInvoices() {
+  return await sql`
+    SELECT invoices.amount, customers.name
+    FROM invoices
+    JOIN customers ON invoices.customer_id = customers.id
+    WHERE invoices.amount = 666;
+  `;
+}
 
-// 	return data;
-// }
-
+// Define the GET request handler
 export async function GET() {
-  return Response.json({
-    message:
-      'Uncomment this file and remove this line. You can delete this file when you are finished.',
-  });
-  // try {
-  // 	return Response.json(await listInvoices());
-  // } catch (error) {
-  // 	return Response.json({ error }, { status: 500 });
-  // }
+  try {
+    const data = await listInvoices();
+    return NextResponse.json({ data });
+  } catch (error:unknown) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
+  }
 }

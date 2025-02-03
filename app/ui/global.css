@@ -18,9 +18,9 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 html {
-  font-family: var(--font-inter);
+  font-family: var(--font-inter), sans-serif;
 }
- 
+
 h1 {
-  font-family: var(--font-roboto-mono);
+  font-family: var(--font-lusitana), serif;
 }
